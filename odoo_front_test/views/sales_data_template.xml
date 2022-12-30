@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="yunlong_sales_data" name="Sale Details">
+         
+            <div class="oe_structure">
+                <div class="container"><br />
+                    <div>
+                        <center>
+                            <h3>Sale Order Details</h3>
+                        </center><br />
+                        <table class="table-striped table">
+                            <thead style="font-size: 23px;">
+                                <tr>
+                                    <h6><b>
+                                            <th>Sale Order</th>
+                                            <th>Customer</th>
+                                            <th>Date</th>
+                                            <th><b>State</b></th>
+                                            <th><b>commitmentDate</b></th>
+                                        </b></h6>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="records" t-as="order">
+                                    <tr>
+                                        <td><span t-esc="order.name" /></td>
+                                        <td><span t-esc="order.partner_id.name" /></td>
+                                        <td><span t-esc="order.date_order" /></td>
+                                        <td><span t-esc="order.state" /></td>
+                                        <td><span t-esc="order.commitment_date" /></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                        <center>
+                            <h3>Sale Order Lines Details</h3>
+                        </center><br />
+                        <table class="table-striped table">
+                            <thead style="font-size: 23px;">
+                                <tr>
+                                    <h6><b>
+                                        <th>Product name</th>
+                                        <th>Product Picking code</th>
+                                        <th>Order Quantity</th>
+                                    </b></h6>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="salesOrderLines" t-as="line">
+                                    <tr>
+                                        <td><span t-esc="line_value['name']" /></td>                                    
+                                        <td><span t-esc="line['pickingCode']" /></td>
+                                        <td><span t-esc="line['qty']" /></td>  
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+    </template>
+</odoo>
