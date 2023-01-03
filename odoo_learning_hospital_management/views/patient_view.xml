@@ -8,8 +8,13 @@
             <form string="Patient">
               <sheet>
                 <group>
+                  <group>
                     <field name="name"/>
-                    <field name="age"/>
+                    <field name="age"/> 
+                  </group>
+                  <group>
+                    <field name = "gender"/>
+                  </group>
                 </group>
 
               </sheet>
