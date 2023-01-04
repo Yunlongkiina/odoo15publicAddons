@@ -1,6 +1,30 @@
 <?xml version="1.0"?>
 <odoo>
   <data>
+    <record id="hospital_patient_view_tree" model="ir.ui.view">
+        <field name="name">hospital.patient.tree</field>
+        <field name="model">hospital.patient</field>
+        <field name="arch" type="xml">
+          <tree>
+            <field name="name"/>
+            <field name="age"/> 
+            <field name = "gender"/>
+          </tree>
+        </field>
+    </record>
+
+    <record id="hospital_patient_view_search" model="ir.ui.view">
+        <field name="name">hospital.patient.search</field>
+        <field name="model">hospital.patient</field>
+        <field name="arch" type="xml">
+          <search>
+            <field name="name" string = "patient name" filter_domain = "['|',('name','ilike',self),('age','ilike',self)]"/>
+            <field name="age"/> 
+            <field name = "gender"/>
+          </search>
+        </field>
+    </record>
+
     <record id="hospital_patient_view_form" model="ir.ui.view">
         <field name="name">hospital.patient.form</field>
         <field name="model">hospital.patient</field>
@@ -21,19 +45,20 @@
             </form>
         </field>
     </record>
+
     <record id="action_hospital_patient" model="ir.actions.act_window">
       <field name="name">Patients</field>
       <field name="res_model">hospital.patient</field>
-      <field name="view_mode">tree,form</field>
+      <field name="view_mode">tree,search,form</field>
       <field name="context">{}</field>
-            <field name="help" type="html">
-                <p class="o_view_nocontent_smiling_face">
-                    Add new patient here!
-                </p>
-                <p>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
                 Add new patient here!
-                </p>
-            </field>
+            </p>
+            <p>
+            Add new patient here!
+            </p>
+        </field>
     </record>
   </data>
 </odoo>
