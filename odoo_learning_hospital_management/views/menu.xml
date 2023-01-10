@@ -19,6 +19,8 @@
         <menuitem id="menu_hospital_root" name="Hospital" >
             <menuitem id="menu_patient_master" name="Patient Detailes" sequence="10">
                 <menuitem id="menu_patient" name = "patient" action="action_hospital_patient" sequence="5"/>
+                <menuitem id="menu_female_patient" name = "female_patient" action="action_hospital_female_patient" sequence="5"/>
+
             </menuitem>
         </menuitem>
 </odoo>

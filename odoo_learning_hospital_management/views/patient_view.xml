@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <odoo>
   <data>
+    <!-- Tree view -->
     <record id="hospital_patient_view_tree" model="ir.ui.view">
         <field name="name">hospital.patient.tree</field>
         <field name="model">hospital.patient</field>
@@ -12,7 +13,7 @@
           </tree>
         </field>
     </record>
-
+    <!-- Search view -->
     <record id="hospital_patient_view_search" model="ir.ui.view">
         <field name="name">hospital.patient.search</field>
         <field name="model">hospital.patient</field>
@@ -21,10 +22,21 @@
             <field name="name" string = "patient name" filter_domain = "['|',('name','ilike',self),('age','ilike',self)]"/>
             <field name="age"/> 
             <field name = "gender"/>
+            <filter name = "filter_male" string= "Male" domain = "[('gender', '=', 'male')]"/>
+            <!-- use and search -->
+            <separator/>
+            <filter name = "filter_female" string= "Female" domain = "[('gender', '=', 'female')]"/>
+            <filter name = "filter_kids" string= "Kids" domain = "[('age', '&lt;', '5')]"/>
+            <separator/>
+            <filter name = "filter_archived" string= "Archived" domain = "[('active', '=', 'False')]"/>
+            
+            <group expand = "0" string = "Group By">
+              <filter name = "groupByGender" string = "Gender"  context = "{'group_by':'gender'}"/>
+            </group>
           </search>
         </field>
     </record>
-
+    <!-- Form view -->
     <record id="hospital_patient_view_form" model="ir.ui.view">
         <field name="name">hospital.patient.form</field>
         <field name="model">hospital.patient</field>
@@ -37,7 +49,9 @@
                     <field name="age"/> 
                   </group>
                   <group>
+                    <field name = "ref"/>
                     <field name = "gender"/>
+                    <field name = "active" invisible = "1"/>
                   </group>
                 </group>
 
