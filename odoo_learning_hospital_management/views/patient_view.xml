@@ -22,6 +22,7 @@
             <field name="name" string = "patient name" filter_domain = "['|',('name','ilike',self),('age','ilike',self)]"/>
             <field name="age"/> 
             <field name = "gender"/>
+            <!-- Add default filters -->
             <filter name = "filter_male" string= "Male" domain = "[('gender', '=', 'male')]"/>
             <!-- use and search -->
             <separator/>
@@ -29,7 +30,7 @@
             <filter name = "filter_kids" string= "Kids" domain = "[('age', '&lt;', '5')]"/>
             <separator/>
             <filter name = "filter_archived" string= "Archived" domain = "[('active', '=', 'False')]"/>
-            
+            <!-- Add default Group by -->
             <group expand = "0" string = "Group By">
               <filter name = "groupByGender" string = "Gender"  context = "{'group_by':'gender'}"/>
             </group>
@@ -54,8 +55,12 @@
                     <field name = "active" invisible = "1"/>
                   </group>
                 </group>
-
               </sheet>
+              <div class="oe_chatter">
+                <field name="message_follower_ids"/>
+                <field name="activity_ids"/>
+                <field name="message_ids"/>
+              </div>
             </form>
         </field>
     </record>
@@ -64,7 +69,8 @@
       <field name="name">Patients</field>
       <field name="res_model">hospital.patient</field>
       <field name="view_mode">tree,search,form</field>
-      <field name="context">{}</field>
+      <!-- Add default search, when redirect to current addon -->
+      <field name="context">{'search_default_filter_male': 1}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Add new patient here!
