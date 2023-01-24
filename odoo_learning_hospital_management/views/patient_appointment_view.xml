@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<odoo>
+  <data>
+    <!-- Tree view -->
+    <record id="hospital_patient_appointment_view_tree" model="ir.ui.view">
+        <field name="name">hospital.appointment.tree</field>
+        <field name="model">hospital.appointment</field>
+        <field name="arch" type="xml">
+          <tree>
+            <field name="patient_id"/>
+            <field name = "ref" />
+            <field name = "appointment_time" />
+          </tree>
+        </field>
+    </record>
+    <!-- Search view -->
+    <record id="hospital_patient_appointment_view_search" model="ir.ui.view">
+        <field name="name">hospital.appointment.search</field>
+        <field name="model">hospital.appointment</field>
+        <field name="arch" type="xml">
+          <search>
+          </search>
+        </field>
+    </record>
+    <!-- Form view -->
+    <record id="hospital_patient_appointment_view_form" model="ir.ui.view">
+        <field name="name">hospital.appointment.form</field>
+        <field name="model">hospital.appointment</field>
+        <field name="arch" type="xml">
+            <form string="Appointment">
+              <sheet>
+                <group>
+                  <group>
+                    <field name="patient_id"/>
+                    <field name = "ref" />
+                  </group>
+                  <group>
+                    <field name = "appointment_time" />
+                  </group>
+                </group>
+                <notebook>
+                  <page string = "Prescription" name = "Prescription">
+                    <group>
+                      <field name = "gender" />
+                    </group>
+                  </page>
+                  <page string = "Pharmacy" name = "Pharmacy">
+                    <group>
+                      <field name = "booking_time" />
+                    </group>
+                  </page>
+
+                </notebook>
+              </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_hospital_patient_appointment" model="ir.actions.act_window">
+      <field name="name">Appointment</field>
+      <field name="res_model">hospital.appointment</field>
+      <field name="view_mode">tree,search,form</field>
+      <!-- Add default search, when redirect to current addon -->
+      <field name="context"></field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add new patient here!
+            </p>
+            <p>
+            Add new patient here!
+            </p>
+        </field>
+    </record>
+  </data>
+</odoo>

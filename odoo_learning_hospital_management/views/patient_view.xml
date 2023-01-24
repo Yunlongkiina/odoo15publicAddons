@@ -19,7 +19,7 @@
         <field name="model">hospital.patient</field>
         <field name="arch" type="xml">
           <search>
-            <field name="name" string = "patient name" filter_domain = "['|',('name','ilike',self),('age','ilike',self)]"/>
+            <field name="name" string = "patient name" filter_domain = "['|',('name','ilike',self)]"/>
             <field name="age"/> 
             <field name = "gender"/>
             <!-- Add default filters -->
@@ -27,7 +27,7 @@
             <!-- use and search -->
             <separator/>
             <filter name = "filter_female" string= "Female" domain = "[('gender', '=', 'female')]"/>
-            <filter name = "filter_kids" string= "Kids" domain = "[('age', '&lt;', '5')]"/>
+            <filter name = "filter_kids" string= "Kids"/>
             <separator/>
             <filter name = "filter_archived" string= "Archived" domain = "[('active', '=', 'False')]"/>
             <!-- Add default Group by -->
@@ -47,6 +47,7 @@
                 <group>
                   <group>
                     <field name="name"/>
+                    <field name = "date_of_birth" />
                     <field name="age"/> 
                   </group>
                   <group>

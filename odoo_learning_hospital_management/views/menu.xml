@@ -1,26 +1,10 @@
 <?xml version="1.0"?>
 <odoo>
-    <!-- Define Menu-->
-    <!-- <menuitem   id="menu_hospital_root"
-                name="Hospital"
-                sequence="0"/>
-    <menuitem   id="menu_patient_master"
-                name="Patient Detailes"
-                parent = "menu_hospital_root"
-                sequence="0"/>
-
-        <menuitem   id="menu_patient"
-                name="Patient"
-                parent = "menu_patient_master"
-                action = "action_hospital_patient"
-                sequence="0"/> -->
-                
-    <!-- Define Menu-->
-        <menuitem id="menu_hospital_root" name="Hospital" >
-            <menuitem id="menu_patient_master" name="Patient Detailes" sequence="10">
-                <menuitem id="menu_patient" name = "patient" action="action_hospital_patient" sequence="5"/>
-                <menuitem id="menu_female_patient" name = "female_patient" action="action_hospital_female_patient" sequence="5"/>
-
-            </menuitem>
+    <menuitem id="menu_hospital_root" name="Hospital" >
+        <menuitem id="menu_patient_master" name="Patient Detailes" sequence="10">
+            <menuitem id="menu_patient" name = "patient" action="action_hospital_patient" sequence="5"/>
+            <menuitem id="menu_female_patient" name = "female_patient" action="action_hospital_female_patient" sequence="5"/>
         </menuitem>
+        <menuitem id="menu_patient_appointment" name = "Appointment" action="action_hospital_patient_appointment" sequence="5"/>
+    </menuitem>
 </odoo>
