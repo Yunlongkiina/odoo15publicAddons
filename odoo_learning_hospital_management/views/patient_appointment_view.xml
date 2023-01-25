@@ -6,10 +6,21 @@
         <field name="name">hospital.appointment.tree</field>
         <field name="model">hospital.appointment</field>
         <field name="arch" type="xml">
-          <tree>
+        <!-- 
+          create = "0" delete = "0"
+          will remove create and delete button from tree view
+         -->
+          <tree create = "0" delete = "0">
             <field name="patient_id"/>
             <field name = "ref" />
             <field name = "appointment_time" />
+            <field 
+              name = "state"
+              widget = "badge"
+              decoration-success = "state == 'done'"
+              decoration-danger = "state == 'cancel'"
+              decoration-info = "state in ('draft','in_consultiation')"
+              />
           </tree>
         </field>
     </record>
@@ -28,25 +39,50 @@
         <field name="model">hospital.appointment</field>
         <field name="arch" type="xml">
             <form string="Appointment">
+              <header>
+                <field name = "state" widget = "statusbar" nolabel = "1" options = "{'clickable': '1'}" statusbar_visible = "draft,in_consultiation,done, cancel"/>
+              </header>
               <sheet>
+                <div>
+                  <h1>
+                    <field name = "priority" widget = "priority" class = "mr-3" />
+                  </h1>
+                </div>
                 <group>
                   <group>
                     <field name="patient_id"/>
                     <field name = "ref" />
+                      <field name = "gender" />
                   </group>
                   <group>
                     <field name = "appointment_time" />
+                    <field name = "booking_time" />
+                    <button 
+                      name = "test_action"
+                      string = "Show Rainbow"
+                      help = "help message"
+                      confirm = "Are you sure to click?"
+                      type = "object"
+                      class = "oe_highlight"
+                    />
+                    <button 
+                      name = "%(odoo_learning_hospital_management.action_hospital_patient)d"
+                      string = "Big button"
+                      help = "help message"
+                      confirm = "Are you sure to click?"
+                      type = "action"
+                      class = "oe_highlight"
+                    />
                   </group>
                 </group>
                 <notebook>
                   <page string = "Prescription" name = "Prescription">
                     <group>
-                      <field name = "gender" />
+                      <field name = "prescription" placeholder = "Enter your perscription here!"/>
                     </group>
                   </page>
                   <page string = "Pharmacy" name = "Pharmacy">
                     <group>
-                      <field name = "booking_time" />
                     </group>
                   </page>
 
