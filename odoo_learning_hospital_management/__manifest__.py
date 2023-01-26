@@ -23,6 +23,7 @@
         'views/patient_view.xml',
         'views/female_patient_view.xml',
         'views/patient_appointment_view.xml',
+        'views/patient_tag_view.xml',
         'views/menu.xml',
     ],
     # only loaded in demonstration mode

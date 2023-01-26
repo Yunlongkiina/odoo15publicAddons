@@ -49,11 +49,14 @@
                     <field name="name"/>
                     <field name = "date_of_birth" />
                     <field name="age"/> 
+                    <field name = "appointment_id" />
+                    <field name="patient_sign" widget="signature" />
                   </group>
                   <group>
                     <field name = "ref"/>
                     <field name = "gender"/>
                     <field name = "active" invisible = "1"/>
+                    <field name="image" widget = "image" calss = "oe_avatar"/>
                   </group>
                 </group>
               </sheet>

@@ -87,7 +87,7 @@
                     <field name = "ref" />
                     <field name = "gender" />
                   </group>
-                  <group>
+                <group>
                     <!-- groups = "base.group_no_one", field just be shown in developer model -->
                     <field name = "hide_sale_price" groups = "base.group_no_one"/>
                     <field name = "appointment_time" />

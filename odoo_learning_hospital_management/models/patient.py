@@ -16,6 +16,10 @@ class HospitalPaitent(models.Model):
     gender = fields.Selection(
         [('male', 'Male'), ('female', 'Female')], string='Gender', tracking=True, default="female")
     active = fields.Boolean(string="Active", default=True)
+    appointment_id = fields.Many2one(
+        'hospital.appointment', string="Appointment")
+    image = fields.Image(string="Image")
+    patient_sign = fields.Binary(string="Patient sign")
 
     def _compute_patient_age(self):
         for patient in self:
