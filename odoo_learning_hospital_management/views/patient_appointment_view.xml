@@ -88,6 +88,8 @@
                     <field name = "gender" />
                   </group>
                   <group>
+                    <!-- groups = "base.group_no_one", field just be shown in developer model -->
+                    <field name = "hide_sale_price" groups = "base.group_no_one"/>
                     <field name = "appointment_time" />
                     <field name = "booking_Date" />
                     <button 
@@ -100,9 +102,9 @@
                     />
                     <button 
                       name = "%(odoo_learning_hospital_management.action_hospital_patient)d"
-                      string = "Big button"
+                      string = "View All Male Paients"
                       help = "help message"
-                      confirm = "Are you sure to click?"
+                      confirm = "Are you sure to Redirect to All Male Paients?"
                       type = "action"
                       class = "oe_highlight"
                     />
@@ -123,7 +125,9 @@
                        <!-- add 'editable = bottom', pop up form will disappear -->
                         <tree>
                           <field name = "product_id" />
-                          <field name = "price_unit" />
+                          <!-- if hide_sale_price is True, pharmacy_line_ids.price_unit will be hidden -->
+                          <field name = "price_unit"
+                                attrs = "{'column_invisible':[('parent.hide_sale_price', '=', True)]}"/>
                           <field name = "quantity" />
                         </tree>
                         <form>
