@@ -14,7 +14,7 @@ class HospitalAppointment(models.Model):
     ref = fields.Char(string="Patient Ref")
     appointment_time = fields.Datetime(
         string="Appointment Time", default=fields.Datetime.now)
-    booking_time = fields.Date(string="Booking Date")
+    booking_Date = fields.Date(string="Booking Date")
     # this is a Html field, which is allow you to write many things
     #
     prescription = fields.Html(string="Prescription")
@@ -31,6 +31,10 @@ class HospitalAppointment(models.Model):
         ('cancel', 'Cancel')
     ], string="Status", default="draft", required=True)
 
+    doctor_id = fields.Many2one('res.users', string="Doctor")
+    pharmacy_line_ids = fields.One2many(
+        'hospital.pharmacy.line', 'appointment_id', string="Pharmacy Line")
+
     @api.onchange('patient_id')
     def onchange_patient_ref(self):
         self.ref = self.patient_id.ref
@@ -43,3 +47,23 @@ class HospitalAppointment(models.Model):
                 'type': 'rainbow_man'
             }
         }
+
+    def action_in_consultiation(self):
+        self.state = 'in_consultiation'
+
+    def action_done(self):
+        self.state = 'done'
+
+    def action_cencel(self):
+        self.state = 'cancel'
+
+
+class AppointmentPharmacyLines(models.Model):
+    _name = 'hospital.pharmacy.line'
+    _description = 'Appointment Pharmacy Lines'
+
+    product_id = fields.Many2one('product.product')
+    price_unit = fields.Float(string="price")
+    quantity = fields.Integer(string="Quantity")
+    appointment_id = fields.Many2one(
+        'hospital.appointment', string="Appointment")
