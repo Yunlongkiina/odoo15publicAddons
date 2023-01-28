@@ -1,0 +1,7 @@
+_inherit function from Odoo class 
+
+class SaleOrder(model.Model):
+    _inherit 'sale.order'
+
+    def action_confirm():
+        super(SaleOrder, self).action_confirm()

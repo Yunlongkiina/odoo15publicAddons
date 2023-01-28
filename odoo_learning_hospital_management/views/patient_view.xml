@@ -1,6 +1,28 @@
 <?xml version="1.0"?>
 <odoo>
   <data>
+
+    <!-- Kanban view -->
+    <record id="hospital_patient_view_kanban" model="ir.ui.view">
+        <field name="name">hospital.patient.kanban</field>
+        <field name="model">hospital.patient</field>
+        <field name="arch" type="xml">
+          <kanban>
+            <templates>
+                <t t-name="kanban-box">
+                  <div class="oe_kanban_global_click">
+                    <div>
+                      <strong class="o_kanban_record_title">
+                          <field name="name"/>
+                      </strong>
+                    </div>
+                </div>
+                </t>
+            </templates>
+          </kanban>
+        </field>
+    </record>
+
     <!-- Tree view -->
     <record id="hospital_patient_view_tree" model="ir.ui.view">
         <field name="name">hospital.patient.tree</field>
@@ -13,6 +35,7 @@
           </tree>
         </field>
     </record>
+    
     <!-- Search view -->
     <record id="hospital_patient_view_search" model="ir.ui.view">
         <field name="name">hospital.patient.search</field>
@@ -37,6 +60,7 @@
           </search>
         </field>
     </record>
+
     <!-- Form view -->
     <record id="hospital_patient_view_form" model="ir.ui.view">
         <field name="name">hospital.patient.form</field>
@@ -50,13 +74,15 @@
                     <field name = "date_of_birth" />
                     <field name="age"/> 
                     <field name = "appointment_id" />
-                    <field name="patient_sign" widget="signature" />
+                    <field name="patient_sign" widget = "signature" />
                   </group>
                   <group>
                     <field name = "ref"/>
                     <field name = "gender"/>
+                    <field name = "patient_email" widget = "email"/>
                     <field name = "active" invisible = "1"/>
-                    <field name="image" widget = "image" calss = "oe_avatar"/>
+                    <field name = "tag_ids" widget = "many2many_tags"/>
+                    <field name="image" widget = "image" class = "oe_avatar patient_form_image"/>
                   </group>
                 </group>
               </sheet>
@@ -72,7 +98,7 @@
     <record id="action_hospital_patient" model="ir.actions.act_window">
       <field name="name">Patients</field>
       <field name="res_model">hospital.patient</field>
-      <field name="view_mode">tree,search,form</field>
+      <field name="view_mode">kanban,tree,search,form</field>
       <!-- Add default search, when redirect to current addon -->
       <field name="context">{'search_default_filter_male': 1}</field>
         <field name="help" type="html">

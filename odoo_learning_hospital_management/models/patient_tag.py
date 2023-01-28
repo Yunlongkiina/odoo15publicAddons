@@ -8,3 +8,5 @@ class PatientTag(models.Model):
 
     name = fields.Char(string="name", required=True)
     active = fields.Boolean(string="Active", default=True)
+    color = fields.Integer(string="Color")
+    color_dynamic = fields.Char(string="Dynamic Color")

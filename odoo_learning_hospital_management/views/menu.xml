@@ -5,8 +5,13 @@
             <menuitem id="menu_patient" name = "patient" action="action_hospital_patient" sequence="5"/>
             <menuitem id="menu_female_patient" name = "female_patient" action="action_hospital_female_patient" sequence="5"/>
         </menuitem>
-        <menuitem id="menu_patient_appointment" name = "Appointment" action="action_hospital_patient_appointment" sequence="5"/>
-        <menuitem id="menu_configuration" name="Configuration" sequence="10">
+
+        <menuitem id="menu_appointment_master" name="Appointment Management" sequence="10">
+            <menuitem id="menu_patient_appointment" name = "Appointment" action="action_hospital_patient_appointment" sequence="5"/>
+            <menuitem id="menu_cancel_appointment" name = "Cancel Appointment" action="action_cancel_appointment" sequence="5"/>
+        </menuitem>
+
+        <menuitem id="menu_configuration" name="Configuration" sequence="100">
             <menuitem id="menu_patient_tag" name = "Tag" action="action_patient_tag" sequence="5"/>
         </menuitem>
     </menuitem>

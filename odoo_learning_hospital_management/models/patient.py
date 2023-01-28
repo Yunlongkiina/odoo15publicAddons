@@ -3,6 +3,18 @@ from datetime import date
 from odoo import models, fields, api
 
 
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
+
 class HospitalPaitent(models.Model):
     _name = 'hospital.patient'
     _inherit = ['mail.thread', 'mail.activity.mixin']
@@ -10,6 +22,7 @@ class HospitalPaitent(models.Model):
 
     name = fields.Char()
     ref = fields.Char(string="Reference")
+    patient_email = fields.Char(string="Patient Email")
     date_of_birth = fields.Date(string="Date of Birth")
     age = fields.Integer(
         string="Age", compute="_compute_patient_age", tracking=True)
@@ -20,6 +33,14 @@ class HospitalPaitent(models.Model):
         'hospital.appointment', string="Appointment")
     image = fields.Image(string="Image")
     patient_sign = fields.Binary(string="Patient sign")
+    tag_ids = fields.Many2many('patient.tag', string="Patient Tags")
+
+    @api.model
+    def create(self, values):
+        print(bcolors.WARNING + str(values) + bcolors.ENDC)
+        if not values['ref']:
+            values['ref'] = "00000"
+        return super(HospitalPaitent, self).create(values)
 
     def _compute_patient_age(self):
         for patient in self:

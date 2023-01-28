@@ -67,8 +67,11 @@ class HospitalAppointment(models.Model):
             }
         }
 
-    def action_cencel(self):
+    def action_cancel(self):
+        action = self.env.ref(
+            'odoo_learning_hospital_management.action_cancel_appointment').read()[0]
         self.state = 'cancel'
+        return action
 
 
 class AppointmentPharmacyLines(models.Model):
