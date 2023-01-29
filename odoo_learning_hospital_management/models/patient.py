@@ -35,12 +35,24 @@ class HospitalPaitent(models.Model):
     patient_sign = fields.Binary(string="Patient sign")
     tag_ids = fields.Many2many('patient.tag', string="Patient Tags")
 
+    # overwrite create method
     @api.model
     def create(self, values):
-        print(bcolors.WARNING + str(values) + bcolors.ENDC)
+        #print(bcolors.WARNING + str(values) + bcolors.ENDC)
         if not values['ref']:
-            values['ref'] = "00000"
+            values['ref'] = self.env['ir.sequence'].next_by_code(
+                'hospital.patient')
         return super(HospitalPaitent, self).create(values)
+
+    # overwrite write method
+    # write mdethod does not need @api.model
+    def write(self, values):
+        if not values['ref'] and not values.get('ref'):
+            values['ref'] = self.env['ir.sequence'].next_by_code(
+                'hospital.patient')
+
+        #print(bcolors.WARNING + str(values) + bcolors.ENDC)
+        return super(HospitalPaitent, self).write(values)
 
     def _compute_patient_age(self):
         for patient in self:

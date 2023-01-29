@@ -29,6 +29,7 @@
         <field name="model">hospital.patient</field>
         <field name="arch" type="xml">
           <tree>
+            <field name ="ref"/>
             <field name="name"/>
             <field name="age"/> 
             <field name = "gender"/>
@@ -98,7 +99,7 @@
     <record id="action_hospital_patient" model="ir.actions.act_window">
       <field name="name">Patients</field>
       <field name="res_model">hospital.patient</field>
-      <field name="view_mode">kanban,tree,search,form</field>
+      <field name="view_mode">tree,kanban,search,form</field>
       <!-- Add default search, when redirect to current addon -->
       <field name="context">{'search_default_filter_male': 1}</field>
         <field name="help" type="html">
