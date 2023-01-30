@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields, api
+from odoo import models, fields, api, _
+from odoo.exceptions import ValidationError
 
 
 class HospitalAppointment(models.Model):
@@ -9,13 +10,16 @@ class HospitalAppointment(models.Model):
     _description = 'Hospital Appointment'
     _rec_name = "ref"
 
-    patient_id = fields.Many2one('hospital.patient', string="patient")
+    # ondelete="restrict", if patient_id is used in this module,
+    # it can be deleted
+    patient_id = fields.Many2one(
+        'hospital.patient', string="patient", ondelete="restrict")
     gender = fields.Selection(related="patient_id.gender")
     ref = fields.Char(string="Patient Ref")
     appointment_time = fields.Datetime(
         string="Appointment Time", default=fields.Datetime.now)
     booking_Date = fields.Date(string="Booking Date")
-    # this is a Html field, which is allow you to write many things
+    # this is a Html field, which is allow you to write styled documents
     #
     prescription = fields.Html(string="Prescription")
     priority = fields.Selection([
@@ -40,6 +44,12 @@ class HospitalAppointment(models.Model):
         'hospital.pharmacy.line', 'appointment_id', string="Pharmacy Line")
 
     hide_sale_price = fields.Boolean(string="Hide Sale Price")
+
+    def unlink(self):
+        if self.state == 'done':
+            raise ValidationError(
+                _('It is not allowed to delete done appointment'))
+        return super(HospitalAppointment, self).unlink()
 
     @api.onchange('patient_id')
     def onchange_patient_ref(self):
@@ -81,6 +91,5 @@ class AppointmentPharmacyLines(models.Model):
     product_id = fields.Many2one('product.product')
     price_unit = fields.Float(string="Sale price")
     quantity = fields.Integer(string="Quantity")
-    #
     appointment_id = fields.Many2one(
         'hospital.appointment', string="Appointment")

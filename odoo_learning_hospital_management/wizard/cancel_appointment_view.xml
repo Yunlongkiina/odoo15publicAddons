@@ -8,7 +8,8 @@
             <form string="Cancel">
                 <group>
                   <group>
-                    <field name="appointment_id"/>
+                  <!-- domain=[('state', '=', 'draft') to filter out non draft appointment -->
+                    <field name="appointment_id" invisible = "context.get('hide_appointment')"/>
                     <field name="cancel_reason"/>
                   </group>
                   <group>

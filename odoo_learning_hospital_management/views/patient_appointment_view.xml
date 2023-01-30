@@ -93,16 +93,20 @@
                   type = "object"
                   states = "in_consultiation,cancel"
                   />
-                <!-- click to luanch wizard -->
+                <!-- 
+                  click to luanch cancel appointment wizard
+                  context = "{'default_appointment_id': active_id}" will default fill Appointment field
+                 -->
                 <!-- <button 
                   name = "%(odoo_learning_hospital_management.action_cancel_appointment)d"
-                  string = "Mark as cancel"
+                  string = "Cancel"
+                  context = "{'default_appointment_id': active_id, 'hide_appointment': 1}"
                   class = "btn-primary"
                   type = "action"
                   /> -->
                 <button 
                   name = "action_cancel"
-                  string = "Mark as cancel"
+                  string = "Cancel"
                   class = "btn-primary"
                   type = "object"
                   />
@@ -111,21 +115,24 @@
               <sheet>
                 <div>
                   <h1>
-                    <field name = "priority" widget = "priority" class = "mr-3" />
+                    <field name = "ref" readonly = "True"/>
                   </h1>
+                  <h2>
+                    <field name = "priority" widget = "priority" class = "mr-3" />
+                  </h2>
                 </div>
                 <group>
                   <group>
-                    <field name="doctor_id"/>
                     <field name="patient_id" default_focus = "1"/>
-                    <field name = "ref" />
-                    <field name = "gender" />
+                    <field name="ref"/>
+                    <field name="gender"/>
+                    <field name="doctor_id"/>
+                    <field name = "booking_Date" />
                   </group>
                 <group>
                     <!-- groups = "base.group_no_one", field just be shown in developer model -->
                     <field name = "hide_sale_price" groups = "base.group_no_one"/>
                     <field name = "appointment_time" />
-                    <field name = "booking_Date" />
                     <button 
                       name = "test_action"
                       string = "Show Rainbow"

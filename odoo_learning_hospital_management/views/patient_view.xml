@@ -33,6 +33,7 @@
             <field name="name"/>
             <field name="age"/> 
             <field name = "gender"/>
+            <field name = "appointment_count" />
           </tree>
         </field>
     </record>
@@ -46,7 +47,10 @@
             <field name="name" string = "patient name" filter_domain = "['|',('name','ilike',self)]"/>
             <field name="age"/> 
             <field name = "gender"/>
-            <!-- Add default filters -->
+            <!-- 
+              Add default filters
+              filter_ + field name
+            -->
             <filter name = "filter_male" string= "Male" domain = "[('gender', '=', 'male')]"/>
             <!-- use and search -->
             <separator/>

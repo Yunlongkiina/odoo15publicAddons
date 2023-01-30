@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 import datetime
+from odoo.exceptions import ValidationError
 
 # import the library
 import logging
@@ -44,13 +45,18 @@ class CancelAppointmentWizard(models.TransientModel):
         # _logger.debug(bcolors.WARNING + str(dir(self)) + bcolors.ENDC)
         res = super(CancelAppointmentWizard, self).default_get(fields)
         res['cancel_date'] = datetime.date.today()
+        # autofill appointment_id in cancel wizard form
+        # res['appointment_id'] = self.env.context.get('active_id')
         return res
 
     appointment_id = fields.Many2one(
-        'hospital.appointment', string="Appointment")
+        'hospital.appointment', string="Appointment", domain=[('state', '=', 'draft')])
     cancel_reason = fields.Text(string="Reason")
     cancel_date = fields.Date(
         sting="Cancellation Date")
 
     def action_cancel(self):
+        if self.appointment_id.booking_Date == fields.Date.today():
+            raise ValidationError(
+                _('Cancelation of same day booking is not allowed!'))
         return

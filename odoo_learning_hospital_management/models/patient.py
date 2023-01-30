@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import date
-from odoo import models, fields, api
+from odoo import models, fields, api, _
+from odoo.exceptions import ValidationError
 
 
 class bcolors:
@@ -34,6 +35,24 @@ class HospitalPaitent(models.Model):
     image = fields.Image(string="Image")
     patient_sign = fields.Binary(string="Patient sign")
     tag_ids = fields.Many2many('patient.tag', string="Patient Tags")
+    appointment_count = fields.Integer(
+        string="Appointment Count", compute="_compute_appountment_count")
+    appointment_ids = fields.One2many(
+        'hospital.appointment', 'patient_id', string="Appointment")
+
+    @api.depends('appointment_ids')
+    def _compute_appountment_count(self):
+        for record in self:
+            record.appointment_count = self.env['hospital.appointment'].search_count(
+                [('patient_id', '=', record.id)])
+
+    @api.constrains('date_of_birth')
+    def _check_date_of_birth(self):
+        for record in self:
+            if record.date_of_birth and record.date_of_birth > fields.Date.today():
+                raise ValidationError(
+                    _('The date of birth you entered is not allowed!'))
+        return
 
     # overwrite create method
     @api.model
@@ -47,9 +66,11 @@ class HospitalPaitent(models.Model):
     # overwrite write method
     # write mdethod does not need @api.model
     def write(self, values):
-        if not values['ref'] and not values.get('ref'):
-            values['ref'] = self.env['ir.sequence'].next_by_code(
-                'hospital.patient')
+        #print(bcolors.WARNING + str(type(values)) + bcolors.ENDC)
+        if 'ref' in values:
+            if not values.get('ref') and not values['ref']:
+                values['ref'] = self.env['ir.sequence'].next_by_code(
+                    'hospital.patient')
 
         #print(bcolors.WARNING + str(values) + bcolors.ENDC)
         return super(HospitalPaitent, self).write(values)
