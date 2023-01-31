@@ -11,7 +11,7 @@ class HospitalAppointment(models.Model):
     _rec_name = "ref"
 
     # ondelete="restrict", if patient_id is used in this module,
-    # it can be deleted
+    # patient_id can not be deleted
     patient_id = fields.Many2one(
         'hospital.patient', string="patient", ondelete="restrict")
     gender = fields.Selection(related="patient_id.gender")
