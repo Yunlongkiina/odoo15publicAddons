@@ -3,23 +3,23 @@ from odoo import models, fields, api, _
 import datetime
 from odoo.exceptions import ValidationError
 
-# import the library
-import logging
-# get the logging object
-_logger = logging.getLogger(__name__)
-# set up the log level
-_logger.setLevel(logging.DEBUG)
-# appending mode 'a', utf-8 encoding is set up to prevent messy codes
-test_log = logging.FileHandler(
-    '../odoo-debug/odoo-debug.log', 'a', 'utf-8')
-# the log level output to files
-test_log.setLevel(logging.DEBUG)
-# the log format output to files
-formatter = logging.Formatter(
-    '%(asctime)s - %(filename)s - line:%(lineno)d - %(levelname)s - %(message)s - %(process)s')
-test_log.setFormatter(formatter)
-# load files into the logger object
-_logger.addHandler(test_log)
+# # import the library
+# import logging
+# # get the logging object
+# _logger = logging.getLogger(__name__)
+# # set up the log level
+# _logger.setLevel(logging.DEBUG)
+# # appending mode 'a', utf-8 encoding is set up to prevent messy codes
+# test_log = logging.FileHandler(
+#     '../odoo-debug/odoo-debug.log', 'a', 'utf-8')
+# # the log level output to files
+# test_log.setLevel(logging.DEBUG)
+# # the log format output to files
+# formatter = logging.Formatter(
+#     '%(asctime)s - %(filename)s - line:%(lineno)d - %(levelname)s - %(message)s - %(process)s')
+# test_log.setFormatter(formatter)
+# # load files into the logger object
+# _logger.addHandler(test_log)
 
 
 class bcolors:
@@ -59,4 +59,5 @@ class CancelAppointmentWizard(models.TransientModel):
         if self.appointment_id.booking_Date == fields.Date.today():
             raise ValidationError(
                 _('Cancelation of same day booking is not allowed!'))
+        self.appointment_id.state = 'cancel'
         return

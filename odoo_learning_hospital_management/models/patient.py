@@ -36,12 +36,16 @@ class HospitalPaitent(models.Model):
     patient_sign = fields.Binary(string="Patient sign")
     tag_ids = fields.Many2many('patient.tag', string="Patient Tags")
     appointment_count = fields.Integer(
-        string="Appointment Count", compute="_compute_appountment_count")
+        string="Appointment Count", compute="_compute_appointment_count")
     appointment_ids = fields.One2many(
         'hospital.appointment', 'patient_id', string="Appointment")
+    parent = fields.Char(string="Parent")
+    marital_status = fields.Selection(
+        [('married', 'Married'), ('single', 'Single')], string="Marital Status", tracking=True)
+    partner_name = fields.Char(string="Partner Name")
 
     @api.depends('appointment_ids')
-    def _compute_appountment_count(self):
+    def _compute_appointment_count(self):
         for record in self:
             record.appointment_count = self.env['hospital.appointment'].search_count(
                 [('patient_id', '=', record.id)])
@@ -54,13 +58,21 @@ class HospitalPaitent(models.Model):
                     _('The date of birth you entered is not allowed!'))
         return
 
+    @api.ondelete(at_uninstall=False)
+    def _check_appointments(self):
+        for record in self:
+            if record.appointment_ids:
+                raise ValidationError(
+                    _('You can not delete a patient has appoints!')
+                )
     # overwrite create method
+
     @api.model
     def create(self, values):
         #print(bcolors.WARNING + str(values) + bcolors.ENDC)
-        if not values['ref']:
-            values['ref'] = self.env['ir.sequence'].next_by_code(
-                'hospital.patient')
+        # if not values['ref']:
+        values['ref'] = self.env['ir.sequence'].next_by_code(
+            'hospital.patient')
         return super(HospitalPaitent, self).create(values)
 
     # overwrite write method
@@ -82,3 +94,6 @@ class HospitalPaitent(models.Model):
                 patient.age = today.year - patient.date_of_birth.year
             else:
                 patient.age = 1
+
+    def action_test_group(self):
+        return

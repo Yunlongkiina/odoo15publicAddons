@@ -73,21 +73,40 @@
         <field name="arch" type="xml">
             <form string="Patient">
               <sheet>
+                <field name="image" widget = "image" class = "oe_avatar patient_form_image"/>
+                <div class = "oe_title">
+                  <h4>
+                    <field name = "ref" readonly = "1"/>
+                  </h4>
+                  <h2>
+                  <!-- class = "oe_edit_only" means label just is showen when in edit situaction -->
+                    <label for = "name" string = "Name" class = "oe_edit_only" />
+                    <field name="name"/>
+                  </h2>
+                </div>
                 <group>
                   <group>
-                    <field name="name"/>
                     <field name = "date_of_birth" />
                     <field name="age"/> 
                     <field name = "appointment_id" />
                     <field name="patient_sign" widget = "signature" />
                   </group>
                   <group>
-                    <field name = "ref"/>
                     <field name = "gender"/>
                     <field name = "patient_email" widget = "email"/>
                     <field name = "active" invisible = "1"/>
+                    <!-- many2many_tags, will enable to add more than one tags -->
                     <field name = "tag_ids" widget = "many2many_tags"/>
-                    <field name="image" widget = "image" class = "oe_avatar patient_form_image"/>
+                  </group>
+                </group>
+                <group sting = "Other Information" name = "other_info">
+                  <group>
+                  <!-- conditionally show ................ -->
+                    <field name = "parent" attrs = "{'invisible':['|',('age', '>', 18),('gender','=','male')]}"/>
+                    <field name = "marital_status"/>
+                    <field name = "partner_name" attrs = "{
+                      'invisible':[('marital_status', '!=', 'married')],
+                      'required':[('marital_status', '=', 'married')]}"/>
                   </group>
                 </group>
               </sheet>

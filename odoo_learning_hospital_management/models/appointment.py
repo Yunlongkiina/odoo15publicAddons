@@ -65,7 +65,9 @@ class HospitalAppointment(models.Model):
         }
 
     def action_in_consultiation(self):
-        self.state = 'in_consultiation'
+        for record in self:
+            if record.state == 'draft':
+                record.state = 'in_consultiation'
 
     def action_done(self):
         self.state = 'done'
