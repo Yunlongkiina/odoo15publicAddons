@@ -2,6 +2,7 @@
 from datetime import date
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
+from dateutil import relativedelta
 
 
 class bcolors:
@@ -26,7 +27,8 @@ class HospitalPaitent(models.Model):
     patient_email = fields.Char(string="Patient Email")
     date_of_birth = fields.Date(string="Date of Birth")
     age = fields.Integer(
-        string="Age", compute="_compute_patient_age", tracking=True)
+        string="Age", compute="_compute_patient_age", inverse='_inverse_compute_patient_age',
+        search="_search_age", tracking=True)
     gender = fields.Selection(
         [('male', 'Male'), ('female', 'Female')], string='Gender', tracking=True, default="female")
     active = fields.Boolean(string="Active", default=True)
@@ -94,6 +96,22 @@ class HospitalPaitent(models.Model):
                 patient.age = today.year - patient.date_of_birth.year
             else:
                 patient.age = 1
+
+    # As default compute field is read-only
+    # If you need to make a manual entry on compute field, that can be done by giving inverse function.
+    # So it triggers call of the decorated function when the field is written/”created”.
+    # It reverses the computation and set the relevant fields.
+    @api.depends('age')
+    def _inverse_compute_patient_age(self):
+        today = date.today()
+        for record in self:
+            record.date_of_birth = today - \
+                relativedelta.relativedelta(years=record.age)
+        return
+
+    def _search_age(self, operator, value):
+        print("--------------value", value)
+        return [('id', '=', 17)]
 
     def action_test_group(self):
         return
