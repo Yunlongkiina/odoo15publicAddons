@@ -31,9 +31,11 @@
           <tree>
             <field name ="ref"/>
             <field name="name"/>
-            <field name="age"/> 
+            <!-- Add avg = anyString  will show average age-->
+            <field name="age" avg = "Average Age"/> 
             <field name = "gender"/>
-            <field name = "appointment_count" />
+            <!-- Add sum = anyString  will show total count-->
+            <field name = "appointment_count" sum= " Total Appointment"/>
           </tree>
         </field>
     </record>
@@ -62,6 +64,7 @@
             <group expand = "0" string = "Group By">
               <filter name = "groupByGender" string = "Gender"  context = "{'group_by':'gender'}"/>
             </group>
+            <!-- Add searchpanel of gender -->
             <searchpanel>
               <field name="gender" string="Geners" enable_counters="1"/>
             </searchpanel>
@@ -76,15 +79,37 @@
         <field name="arch" type="xml">
             <form string="Patient">
               <sheet>
+                <div
+                  class="alert alert-success text-center o_form_header" role="alert"
+                  attrs = "{
+                      'invisible':[('is_birth', '=', False)]
+                      }">
+                    <a class="close" data-dismiss="alert" href="#" aria-label="Close"><i title="Close" class="small fa fa-times"/></a>
+                    <div>
+                      <strong>Today is Birthday!</strong>
+                    </div>
+                    <!-- <div attrs="{'invisible': [('state', '!=', 'new')]}">
+                        <strong>An invitation email containing the following subscription link has been sent:</strong>
+                    </div> -->
+                    <div>Wish <field name="name" readonly="1"/></div>
+                </div>
+
                 <field name="image" widget = "image" class = "oe_avatar patient_form_image"/>
                 <div class = "oe_title">
                   <h4>
                     <field name = "ref" readonly = "1"/>
                   </h4>
                   <h2>
-                  <!-- class = "oe_edit_only" means label just is showen when in edit situaction -->
+                    <!-- class = "oe_edit_only" means label just is showen when in edit situaction -->
                     <label for = "name" string = "Name" class = "oe_edit_only" />
                     <field name="name"/>
+                    <field name = "price_list" />
+                    <button 
+                      name = "get_price_list"
+                      string = "Get PriceList"
+                      class = "btn-primary"
+                      type = "object"
+                  />
                   </h2>
                 </div>
                 <group>
@@ -95,16 +120,17 @@
                     <field name="patient_sign" widget = "signature" />
                   </group>
                   <group>
-                    <field name = "gender"/>
+                    <field name = "gender" widget = "radio"/>
                     <field name = "patient_email" widget = "email"/>
                     <field name = "active" invisible = "1"/>
+                    <field name = "is_birth" />
                     <!-- many2many_tags, will enable to add more than one tags -->
                     <field name = "tag_ids" widget = "many2many_tags"/>
                   </group>
                 </group>
                 <group sting = "Other Information" name = "other_info">
                   <group>
-                  <!-- conditionally show ................ -->
+                    <!-- conditionally show ................ -->
                     <field name = "parent" attrs = "{'invisible':['|',('age', '>', 18),('gender','=','male')]}"/>
                     <field name = "marital_status"/>
                     <field name = "partner_name" attrs = "{

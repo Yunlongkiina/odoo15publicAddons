@@ -8,5 +8,6 @@ class ResConfigSettings(models.TransientModel):
     _inherit = ['res.config.settings']
 
     # ir.config_parameter will store config parameters
+    # config_parameter can be found in Technical >> Parameters >> System Parameters
     cancel_days = fields.Integer(
         string='Cancel Days', config_parameter='odoo_learning_hospital_management.cancel_days')

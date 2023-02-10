@@ -45,6 +45,20 @@ class HospitalPaitent(models.Model):
     marital_status = fields.Selection(
         [('married', 'Married'), ('single', 'Single')], string="Marital Status", tracking=True)
     partner_name = fields.Char(string="Partner Name")
+    is_birth = fields.Boolean(
+        string="Birthday ?", compute="_compute_is_birthday")
+    price_list = fields.Many2one(
+        'product.pricelist.item', string="Price List Item")
+
+    def get_price_list(self):
+        # priceLists = self.env["product.pricelist"].sudo().search([])
+        priceLists = self.env["product.pricelist.item"].sudo().search([])
+
+        # for priceList in priceLists:
+        #     print(
+        #         '*****************Get price List ***********************', dir(priceList))
+        print('*****************Get price List ***********************', priceLists)
+        return
 
     @api.depends('appointment_ids')
     def _compute_appointment_count(self):
@@ -110,8 +124,20 @@ class HospitalPaitent(models.Model):
         return
 
     def _search_age(self, operator, value):
-        print("--------------value", value)
-        return [('id', '=', 17)]
+        searched_date_of_birth = date.today() - relativedelta.relativedelta(years=value)
+        start_of_year = searched_date_of_birth.replace(day=1, month=1)
+        end_of_year = searched_date_of_birth.replace(day=31, month=12)
+        return [('date_of_birth', '>=', start_of_year), ('date_of_birth', '<=', end_of_year)]
 
     def action_test_group(self):
         return
+
+    @api.depends('date_of_birth')
+    def _compute_is_birthday(self):
+        for record in self:
+            is_birth = False
+            if record.date_of_birth:
+                today = date.today()
+                if today.day == record.date_of_birth.day and today.month == record.date_of_birth.month:
+                    is_birth = True
+            record.is_birth = is_birth

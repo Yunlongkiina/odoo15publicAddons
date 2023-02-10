@@ -9,6 +9,9 @@ class HospitalAppointment(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = 'Hospital Appointment'
     _rec_name = "ref"
+    # descend appointment according to id
+    # Order Attribute In Odoo Models
+    _order_ = "id desc"
 
     # ondelete="restrict", if patient_id is used in this module,
     # patient_id can not be deleted
@@ -36,6 +39,7 @@ class HospitalAppointment(models.Model):
     ], string="Status", default="draft", required=True)
 
     doctor_id = fields.Many2one('res.users', string="Doctor")
+
     # pharmacy_line_ids will create many lines,
     # same idea as sales order line
     # The model hospital.pharmacy.line need to declare
@@ -83,7 +87,7 @@ class HospitalAppointment(models.Model):
     def action_cancel(self):
         action = self.env.ref(
             'odoo_learning_hospital_management.action_cancel_appointment').read()[0]
-        self.state = 'cancel'
+        #self.state = 'cancel'
         return action
 
 

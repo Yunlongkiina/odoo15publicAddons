@@ -26,6 +26,7 @@
         'views/patient_tag_view.xml',
         'wizard/cancel_appointment_view.xml',
         'views/res_config_settings_views.xml',
+        'views/operation_view.xml',
         'views/menu.xml',
     ],
     'assets': {

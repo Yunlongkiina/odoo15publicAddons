@@ -13,11 +13,7 @@
 
         <menuitem id="menu_configuration" name="Configuration" sequence="100">
             <menuitem id="menu_patient_tag" name = "Tag" action="action_patient_tag" sequence="5"/>
+            <menuitem id="menu_operation" name = "Operation" action="action_hospital_operation" sequence="5"/>
         </menuitem>
-
-        <!-- <menuitem id="menu_technical" name="Technical" sequence="100">
-            <menuitem id="menu_excute_code" name = "Excute Code" action="action_excute_code" sequence="5"/>
-        </menuitem> -->
-
     </menuitem>
 </odoo>
