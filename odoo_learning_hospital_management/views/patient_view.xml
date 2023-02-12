@@ -104,12 +104,12 @@
                     <label for = "name" string = "Name" class = "oe_edit_only" />
                     <field name="name"/>
                     <field name = "price_list" />
-                    <button 
+                    <!-- <button 
                       name = "get_price_list"
                       string = "Get PriceList"
                       class = "btn-primary"
                       type = "object"
-                  />
+                  /> -->
                   </h2>
                 </div>
                 <group>
