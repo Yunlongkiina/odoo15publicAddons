@@ -50,16 +50,6 @@ class HospitalPaitent(models.Model):
     price_list = fields.Many2one(
         'product.pricelist.item', string="Price List Item")
 
-    def get_price_list(self):
-        # priceLists = self.env["product.pricelist"].sudo().search([])
-        priceLists = self.env["product.pricelist.item"].sudo().search([])
-
-        # for priceList in priceLists:
-        #     print(
-        #         '*****************Get price List ***********************', dir(priceList))
-        print('*****************Get price List ***********************', priceLists)
-        return
-
     @api.depends('appointment_ids')
     def _compute_appointment_count(self):
         for record in self:
