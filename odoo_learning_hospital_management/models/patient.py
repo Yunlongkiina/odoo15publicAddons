@@ -27,8 +27,7 @@ class HospitalPaitent(models.Model):
     patient_email = fields.Char(string="Patient Email")
     date_of_birth = fields.Date(string="Date of Birth")
     age = fields.Integer(
-        string="Age", compute="_compute_patient_age", inverse='_inverse_compute_patient_age',
-        search="_search_age", tracking=True)
+        string="Age", compute="_compute_patient_age", search="_search_age", tracking=True)
     gender = fields.Selection(
         [('male', 'Male'), ('female', 'Female')], string='Gender', tracking=True, default="female")
     active = fields.Boolean(string="Active", default=True)
@@ -47,8 +46,9 @@ class HospitalPaitent(models.Model):
     partner_name = fields.Char(string="Partner Name")
     is_birth = fields.Boolean(
         string="Birthday ?", compute="_compute_is_birthday")
-    price_list = fields.Many2one(
-        'product.pricelist.item', string="Price List Item")
+    phone = fields.Char(string="Phone")
+    e_mail = fields.Char(string="E_mail")
+    website = fields.Char(string="Website")
 
     @api.depends('appointment_ids')
     def _compute_appointment_count(self):
@@ -89,10 +89,9 @@ class HospitalPaitent(models.Model):
             if not values.get('ref') and not values['ref']:
                 values['ref'] = self.env['ir.sequence'].next_by_code(
                     'hospital.patient')
-
-        #print(bcolors.WARNING + str(values) + bcolors.ENDC)
         return super(HospitalPaitent, self).write(values)
 
+    @api.depends('date_of_birth')
     def _compute_patient_age(self):
         for patient in self:
             today = date.today()
@@ -105,22 +104,20 @@ class HospitalPaitent(models.Model):
     # If you need to make a manual entry on compute field, that can be done by giving inverse function.
     # So it triggers call of the decorated function when the field is written/”created”.
     # It reverses the computation and set the relevant fields.
-    @api.depends('age')
-    def _inverse_compute_patient_age(self):
-        today = date.today()
-        for record in self:
-            record.date_of_birth = today - \
-                relativedelta.relativedelta(years=record.age)
-        return
+    # @api.depends('age')
+    # def _inverse_compute_patient_age(self):
+    #     today = date.today()
+    #     for record in self:
+    #         if record.age:
+    #             record.date_of_birth = today - \
+    #                 relativedelta.relativedelta(years=record.age)
+    #         pass
 
     def _search_age(self, operator, value):
         searched_date_of_birth = date.today() - relativedelta.relativedelta(years=value)
         start_of_year = searched_date_of_birth.replace(day=1, month=1)
         end_of_year = searched_date_of_birth.replace(day=31, month=12)
         return [('date_of_birth', '>=', start_of_year), ('date_of_birth', '<=', end_of_year)]
-
-    def action_test_group(self):
-        return
 
     @api.depends('date_of_birth')
     def _compute_is_birthday(self):

@@ -88,9 +88,6 @@
                     <div>
                       <strong>Today is Birthday!</strong>
                     </div>
-                    <!-- <div attrs="{'invisible': [('state', '!=', 'new')]}">
-                        <strong>An invitation email containing the following subscription link has been sent:</strong>
-                    </div> -->
                     <div>Wish <field name="name" readonly="1"/></div>
                 </div>
 
@@ -103,7 +100,7 @@
                     <!-- class = "oe_edit_only" means label just is showen when in edit situaction -->
                     <label for = "name" string = "Name" class = "oe_edit_only" />
                     <field name="name"/>
-                    <field name = "price_list" />
+                    <!-- <field name = "price_list" /> -->
                   </h2>
                 </div>
                 <group>
@@ -130,6 +127,11 @@
                     <field name = "partner_name" attrs = "{
                       'invisible':[('marital_status', '!=', 'married')],
                       'required':[('marital_status', '=', 'married')]}"/>
+                  </group>
+                  <group>
+                    <field name = "phone" widget = "phone"/>
+                    <field name = "e_mail" widget = "email"/>
+                    <field name = "website" widget = "url"/>
                   </group>
                 </group>
               </sheet>

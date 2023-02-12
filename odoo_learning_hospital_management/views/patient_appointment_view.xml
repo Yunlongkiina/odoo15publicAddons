@@ -82,7 +82,6 @@
                   />
               <!-- use groupby inside tree view, just can use Many2one field, for example: patient_id -->
               <groupby name="patient_id">
-                <button name = "action_test_group" string = "click me" type = "object" class = "oe_highlight"/>
                 <button name = "edit" string = "Edit" type = "edit"/>
               </groupby>
           </tree>
@@ -208,7 +207,6 @@
                       </field>
                     </group>
                   </page>
-
                 </notebook>
               </sheet>
               <div class="oe_chatter">
