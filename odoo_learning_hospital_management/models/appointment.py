@@ -48,6 +48,7 @@ class HospitalAppointment(models.Model):
         'hospital.pharmacy.line', 'appointment_id', string="Pharmacy Line")
 
     hide_sale_price = fields.Boolean(string="Hide Sale Price")
+    progress = fields.Integer(string="Progress", compute="_compute_progress")
 
     def unlink(self):
         for record in self:
@@ -89,6 +90,24 @@ class HospitalAppointment(models.Model):
             'odoo_learning_hospital_management.action_cancel_appointment').read()[0]
         #self.state = 'cancel'
         return action
+
+        # ('draft', 'Draft'),
+        # ('in_consultiation', 'In_consultiation'),
+        # ('done', 'Done'),
+        # ('cancel', 'Cancel')
+
+    @api.depends('state')
+    def _compute_progress(self):
+        for record in self:
+            if record.state == 'draft':
+                progres = 25
+            if record.state == 'in_consultiation':
+                progres = 50
+            if record.state == 'done':
+                progres = 100
+            if record.state == 'cancel':
+                progres = 0
+            record.progress = progres
 
 
 class AppointmentPharmacyLines(models.Model):

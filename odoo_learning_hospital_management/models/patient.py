@@ -100,6 +100,7 @@ class HospitalPaitent(models.Model):
             else:
                 patient.age = 1
 
+# BUG, need to fix
     # As default compute field is read-only
     # If you need to make a manual entry on compute field, that can be done by giving inverse function.
     # So it triggers call of the decorated function when the field is written/”created”.
