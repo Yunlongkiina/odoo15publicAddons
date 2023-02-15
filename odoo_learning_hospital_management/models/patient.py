@@ -53,8 +53,19 @@ class HospitalPaitent(models.Model):
     @api.depends('appointment_ids')
     def _compute_appointment_count(self):
         for record in self:
-            record.appointment_count = self.env['hospital.appointment'].search_count(
-                [('patient_id', '=', record.id)])
+            appointment_group = self.env['hospital.appointment'].read_group(
+                domain=[], fields=['patient_id', ], groupby=['patient_id'])
+            for appointment in appointment_group:
+                patient_id = appointment.get('patient_id')
+                patient_record = self.browse(patient_id)
+                patient_record.appointment_count = appointment['patient_id_count']
+                # get original self
+                self -= patient_record
+            self.appointment_count = 0
+
+            # second method to get appointment count
+            # record.appointment_count = self.env['hospital.appointment'].search_count(
+            #     [('patient_id', '=', record.id)])
 
     @api.constrains('date_of_birth')
     def _check_date_of_birth(self):
