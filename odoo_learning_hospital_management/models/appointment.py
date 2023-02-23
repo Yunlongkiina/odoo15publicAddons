@@ -2,7 +2,7 @@
 
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
-
+# test git clone
 
 class HospitalAppointment(models.Model):
     _name = 'hospital.appointment'
