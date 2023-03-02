@@ -27,10 +27,10 @@ from odoo.tools import date_utils
 
 
 class OdooFrontTest(http.Controller):
-    @http.route('/odoo_front_test/update', auth='public', website=False, csrf=False, type='json', method=['POST'])
+    @http.route('/odoo_front_test/update', auth='public', website=False, csrf=False, type='json', method=['GET'])
     def index(self, **kw):
         return
-        # _logger.debug(kw)
+        _logger.debug(kw)
         # return {
         #     'success': True,
         #     'status': 'OK',

@@ -60,12 +60,13 @@ class CancelAppointmentWizard(models.TransientModel):
     def action_cancel(self):
         allowed_cancel_days = self.env['ir.config_parameter'].get_param(
             'odoo_learning_hospital_management.cancel_days')
-        allow_date = self.appointment_id.booking_Date + \
-            relativedelta.relativedelta(days=int(allowed_cancel_days))
-        if date.today() < allow_date:
-            raise ValidationError(_('Cancellation is not allowed within %s day of booking. You can cancel it on %s' % (
-                allowed_cancel_days, allow_date)))
-        self.appointment_id.state = 'cancel'
+        if self.appointment_id.booking_Date:
+            allow_date = self.appointment_id.booking_Date + \
+                relativedelta.relativedelta(days=int(allowed_cancel_days))
+            if date.today() < allow_date:
+                raise ValidationError(_('Cancellation is not allowed within %s day of booking. You can cancel it on %s' % (
+                    allowed_cancel_days, allow_date)))
+            self.appointment_id.state = 'cancel'
         # reload screen
         return {
             'type': 'ir.actions.client',

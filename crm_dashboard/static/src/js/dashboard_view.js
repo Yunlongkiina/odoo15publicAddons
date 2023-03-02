@@ -1008,8 +1008,6 @@ odoo.define('crm_dashboard.CRMDashboard', function (require) {
                 });
             });
         },
-
-
         render_campaign_leads_graph:function(){
             var self = this
             var ctx = self.$(".campaign_source");
@@ -1082,7 +1080,6 @@ odoo.define('crm_dashboard.CRMDashboard', function (require) {
                 });
             });
         },
-
         render_source_leads_graph:function(){
             var self = this
             var ctx = self.$(".source_lead");
@@ -1155,7 +1152,6 @@ odoo.define('crm_dashboard.CRMDashboard', function (require) {
                 });
             });
         },
-
         render_medium_leads_graph:function(){
             var self = this
             var ctx = self.$(".medium_leads");
@@ -1359,7 +1355,6 @@ odoo.define('crm_dashboard.CRMDashboard', function (require) {
                 });
             });
         },
-
 //        onclick_sub_lost_last_12months: function(ev) {
 //            var self = this;
 //            if( self.is_manager == true){
